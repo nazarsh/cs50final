@@ -8,7 +8,7 @@ Final CS50 project. Program that:
 
 ## User Stories
 * [x] Create a daemon process scaffold for the program (2)
-* [ ] Add `root` checks when program is executed (1)
+* [x] Add `root` checks when program is executed (1)
 * [ ] Add color for output (1)
 * [ ] Add flag processing (3)
 * [ ] Add unit testing framework (2)
