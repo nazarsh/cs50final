@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>
+#include "termcolors.h"
 
 int main (int argc, char* argv[])
 {
@@ -15,23 +16,23 @@ int main (int argc, char* argv[])
 	// ensure user is root
 	if (euid != 0)
 	{
-		printf("Insufficient priviledges. Please execute as root.\n");
+		alert("Insufficient priviledges. Please execute as root.");
 		exit(1);
 	}
 	else
-		printf("CS50 Bouncer is starting\n");
+		notify("CS50 Bouncer is starting.");
 
 	// use fork() to create child process
 	process_id = fork();
 
 	if (process_id < 0)
 	{
-		printf("fork failed!\n");
+		alert("fork failed!");
 		exit(1);
 	}
 	else if (process_id > 0)
 	{
-		printf("process_id of child process %d \n", process_id);
+		printf("process_id of child process %d.\n", process_id);
 		exit(0);
 	}
 
@@ -43,7 +44,7 @@ int main (int argc, char* argv[])
 		exit(1);
 	}
 
-	chdir("/~");
+	chdir("/var/log/");
 
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
