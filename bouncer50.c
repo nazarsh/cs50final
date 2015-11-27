@@ -5,26 +5,21 @@
 #include <sys/stat.h>
 #include <string.h>
 
-/*
-TODOs
-[ ] Create a normal process (Parent process)
-[ ] Create a child process from within the above parent process
-[ ] The process hierarchy at this stage looks like :  TERMINAL -> PARENT PROCESS -> CHILD PROCESS
-[ ] Terminate the the parent process.
-[ ] The child process now becomes orphan and is taken over by the init process.
-[ ] Call setsid() function to run the process in new session and have a new group.
-[ ] After the above step we can say that now this process becomes a daemon process without having a controlling terminal.
-[ ] Change the working directory of the daemon process to root and close stdin, stdout and stderr file descriptors.
-[ ] Let the main logic of daemon process run.
-*/
-
 int main (int argc, char* argv[])
 {
-	printf("CS50 Bouncer is starting\n");
-
-	FILE *fp = NULL;
+	FILE *logfp = NULL;
 	pid_t process_id = 0;
 	pid_t sid = 0;
+	uid_t euid = geteuid();
+
+	// ensure user is root
+	if (euid != 0)
+	{
+		printf("Insufficient priviledges. Please execute as root.\n");
+		exit(1);
+	}
+	else
+		printf("CS50 Bouncer is starting\n");
 
 	// use fork() to create child process
 	process_id = fork();
@@ -54,15 +49,15 @@ int main (int argc, char* argv[])
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 
-	fp = fopen ("bouncer.log", "w+");
+	logfp = fopen ("bouncer.log", "w+");
 
 	while (1)
 	{
 		sleep(5);
-		fprintf(fp, "logging ...\n");
-		fflush(fp);
+		fprintf(logfp, "logging ...\n");
+		fflush(logfp);
 	}
 
-	fclose(fp);
+	fclose(logfp);
 	return 0;
 }

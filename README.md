@@ -11,6 +11,7 @@ Final CS50 project. Program that:
 * [ ] Add `root` checks when program is executed (1)
 * [ ] Add color for output (1)
 * [ ] Add flag processing (3)
+* [ ] Add unit testing framework (2)
 
 ## References
 1. [Creating a Daemon Process in C Language with an Example Program](http://www.thegeekstuff.com/2012/02/c-daemon-process/) by HIMANSHU ARORA on FEBRUARY 24, 2012
