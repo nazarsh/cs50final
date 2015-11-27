@@ -1,2 +1,2 @@
 all:
-	gcc -Wall bouncer50.c -o bin/bouncer50
+	gcc -Wall bouncer50.c termcolors.c -o bin/bouncer50
