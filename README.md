@@ -26,5 +26,6 @@ Final CS50 project. Program that:
 3. [User identifier](https://en.wikipedia.org/wiki/User_identifier) (Wikipedia)
 4. [Using C/C++, how do you print to stdout in color, but only if the terminal supports it?](http://stackoverflow.com/questions/12827143/using-c-c-how-do-you-print-to-stdout-in-color-but-only-if-the-terminal-suppo) (Stackoverflow)
 5. [stdlib and colored output in C](http://stackoverflow.com/questions/3219393/stdlib-and-colored-output-in-c) (Stackoverflow)
-6. [The GNU C Library: Host Address Functions](http://www.gnu.org/software/libc/manual/html_node/Host-Address-Functions.html)
+6. [The GNU C Library: Host Address Functions](http://www.gnu.org/software/libc/manual/html_node/Host-Address-Functions.html) (GNU C Library)
 7. [An Introduction To The SQLite C/C++ Interface](https://sqlite.org/cintro.html)
+8. [The GNU C Library: Getopt](http://www.gnu.org/software/libc/manual/html_node/Getopt.html) (GNU C Library)
