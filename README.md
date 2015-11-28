@@ -10,15 +10,16 @@ Final CS50 project. Program that:
 * [x] Create a daemon process scaffold for the program (2)
 * [x] Add `root` checks when program is executed (1)
 * [x] Add color for output (1)
-* [ ] Add flag processing (2)
-* [ ] Add "config analyze" flag and functionality (3)
-* [ ] Add "activity stats" flag and functionality (3)
+* [x] Add flag processing (2)
+* [ ] Add "analyze" flag and functionality (3)
+* [ ] Add "stats" flag and functionality (3)
 * [ ] Setup sqlite3 database. (1)
 * [ ] Ingest, store, use `country <=> ip` map. (3)
-* [ ] Add "active defense" flag and functionality (3)
+* [ ] Add "defend" flag and functionality (3)
 
 ### Stretch Goals
 * [ ] Add unit testing framework (2)
+* [ ] Add download capability to get fresh `country <=> ip` map. (2)
 
 ## References
 1. [Creating a Daemon Process in C Language with an Example Program](http://www.thegeekstuff.com/2012/02/c-daemon-process/) by HIMANSHU ARORA on FEBRUARY 24, 2012

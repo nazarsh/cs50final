@@ -4,10 +4,70 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <getopt.h>
+
 #include "bouncer50.h"
 
 int main (int argc, char* argv[])
 {
+
+	int opts;
+	char* help_text = "Example usage:\n\n \
+	bouncer50 --help    | -h\t print this help message\n \
+	bouncer50 --analyze | -a\t analyze ssh configuration\n \
+	bouncer50 --stats   | -s\t print remote login attemps statistics\n \
+	bouncer50 --defend  | -d\t start blocking malicious remote ssh attempts\n";
+
+	// handle no argument launch of the program
+	if (argc < 2)
+		printf("%s",help_text);
+
+	// options processing loop
+	while(1)
+	{
+		static struct option long_options[] =
+		{
+			{"analyze",		no_argument,	0,	'a'},
+			{"defend",		no_argument,	0,	'd'},
+			{"stats",			no_argument,	0,	's'},
+			{"help",			no_argument, 	0, 	'h'},
+			{0,0,0,0}
+		};
+
+		// variable to store getopt_long option index
+		int option_index = 0;
+
+		opts = getopt_long (argc, argv, "adsh", long_options, &option_index);
+
+		// check for end of the options
+		if (opts == -1)
+			break;
+
+		switch (opts)
+		{
+			case 'a':
+				puts("option -a\n");
+				break;
+			case 'd':
+				puts("option -d\n");
+				break;
+			case 's':
+				puts("option -s\n");
+				break;
+			case 'h':
+				printf("%s",help_text);
+				break;
+			case '?':
+				break;
+			default:
+				abort();
+		}
+	}
+
+	exit (0);
+
+// ===========
+
 	FILE *logfp = NULL;
 	pid_t process_id = 0;
 	pid_t sid = 0;
