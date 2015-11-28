@@ -31,3 +31,4 @@ Final CS50 project. Program that:
 8. [The GNU C Library: Getopt](http://www.gnu.org/software/libc/manual/html_node/Getopt.html) (GNU C Library)
 9. [Download file using libcurl in C/C++](http://stackoverflow.com/questions/1636333/download-file-using-libcurl-in-c-c) (Stackoverflow)
 10. [Is there a C project Default Directory Layout?](http://stackoverflow.com/questions/8523078/is-there-a-c-project-default-directory-layout) (Stackoverflow)
+11. [How can I add an empty directory to a Git repository?](http://stackoverflow.com/questions/115983/how-can-i-add-an-empty-directory-to-a-git-repository) (Stackoverflow)
