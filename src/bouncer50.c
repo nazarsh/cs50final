@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>
-#include "termcolors.h"
+#include "bouncer50.h"
 
 int main (int argc, char* argv[])
 {

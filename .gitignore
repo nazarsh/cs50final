@@ -34,3 +34,6 @@ bin/*
 
 # Log files
 *.log
+
+# OS X .DS_Store
+.DS_Store

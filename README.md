@@ -29,3 +29,5 @@ Final CS50 project. Program that:
 6. [The GNU C Library: Host Address Functions](http://www.gnu.org/software/libc/manual/html_node/Host-Address-Functions.html) (GNU C Library)
 7. [An Introduction To The SQLite C/C++ Interface](https://sqlite.org/cintro.html)
 8. [The GNU C Library: Getopt](http://www.gnu.org/software/libc/manual/html_node/Getopt.html) (GNU C Library)
+9. [Download file using libcurl in C/C++](http://stackoverflow.com/questions/1636333/download-file-using-libcurl-in-c-c) (Stackoverflow)
+10. [Is there a C project Default Directory Layout?](http://stackoverflow.com/questions/8523078/is-there-a-c-project-default-directory-layout) (Stackoverflow)
