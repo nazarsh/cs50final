@@ -13,6 +13,8 @@ Final CS50 project. Program that:
 * [ ] Add flag processing (2)
 * [ ] Add "config analyze" flag and functionality (3)
 * [ ] Add "activity stats" flag and functionality (3)
+* [ ] Setup sqlite3 database. (1)
+* [ ] Ingest, store, use `country <=> ip` map. (3)
 * [ ] Add "active defense" flag and functionality (3)
 
 ### Stretch Goals
@@ -24,3 +26,5 @@ Final CS50 project. Program that:
 3. [User identifier](https://en.wikipedia.org/wiki/User_identifier) (Wikipedia)
 4. [Using C/C++, how do you print to stdout in color, but only if the terminal supports it?](http://stackoverflow.com/questions/12827143/using-c-c-how-do-you-print-to-stdout-in-color-but-only-if-the-terminal-suppo) (Stackoverflow)
 5. [stdlib and colored output in C](http://stackoverflow.com/questions/3219393/stdlib-and-colored-output-in-c) (Stackoverflow)
+6. [The GNU C Library: Host Address Functions](http://www.gnu.org/software/libc/manual/html_node/Host-Address-Functions.html)
+7. [An Introduction To The SQLite C/C++ Interface](https://sqlite.org/cintro.html)
