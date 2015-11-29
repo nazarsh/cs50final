@@ -1,3 +1,15 @@
+/**
+ * analyze.c
+ *
+ * Nazar Sharunenko
+ * nazar.sh@gmail.com
+ *
+ * Program to:
+ *   analyze sshd_config for best practices
+ *   provide statistics about unauthorized ssh login attemps
+ *   help block unauthorized ssh login attemps by writing firewall rules
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -7,6 +19,7 @@
 #include <getopt.h>
 
 #include "bouncer50.h"
+#include "analyze.h"
 
 int main (int argc, char* argv[])
 {
@@ -104,6 +117,7 @@ int main (int argc, char* argv[])
 		exit(1);
 	}
 
+	// Location of the log file (*nix only)
 	chdir("/var/log/");
 
 	close(STDIN_FILENO);
