@@ -59,7 +59,7 @@ int main (int argc, char* argv[])
 		switch (opts)
 		{
 			case 'a':
-				puts("option -a\n");
+				analyzeConfig();
 				break;
 			case 'd':
 				puts("option -d\n");

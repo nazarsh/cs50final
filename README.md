@@ -13,6 +13,7 @@ Final CS50 project. Program that:
 * [x] Add flag processing (2)
 * [ ] Add "analyze" flag and functionality (epic)
   * [x] Add a bill of health config file (1)
+  * [x] Generate default bill if file is not found (2)
   * [ ] Add reading of the bill of health (1)
   * [ ] Add reading of the sshd_config (1)
   * [ ] Implement comparison of bill and config file (2)
@@ -39,3 +40,5 @@ Final CS50 project. Program that:
 10. [Is there a C project Default Directory Layout?](http://stackoverflow.com/questions/8523078/is-there-a-c-project-default-directory-layout) (Stackoverflow)
 11. [How can I add an empty directory to a Git repository?](http://stackoverflow.com/questions/115983/how-can-i-add-an-empty-directory-to-a-git-repository) (Stackoverflow)
 12. [SSH Essentials: Working with SSH Servers, Clients, and Keys](https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys) (DigitalOcean)
+13. [What's the best way to check if a file exists in C? (cross platform)](http://stackoverflow.com/questions/230062/whats-the-best-way-to-check-if-a-file-exists-in-c-cross-platform) (Stackoverflow)
+14. [How to get size of file in C](http://www.linuxquestions.org/questions/programming-9/how-to-get-size-of-file-in-c-183360/) (LinuxQuestions)
