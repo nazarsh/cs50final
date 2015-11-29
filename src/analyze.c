@@ -15,16 +15,17 @@
 #include <unistd.h>
 #include "bouncer50.h"
 
-#define CONFIG_FILE_NAME "bouncer50.conf"
+#define CONFIG_FILE_NAME "/etc/bouncer50.conf"
 #define CONFIG_MIN_SIZE 10
+#define SSHD_CONFIG "/etc/ssh/sshd_config"
 FILE* config_fp;
 
 /**
- * Loads bill of health config file into memory
+ * Checks bouncer50.conf and sshd_config before passing them to analyzeConfig
  */
 int checkConfigs (void)
 {
-  // check to see if config file exists
+  // check to see if bouncer config file exists
   if(access(CONFIG_FILE_NAME, F_OK) != -1 ) {
     config_fp = fopen(CONFIG_FILE_NAME, "r+");
 
@@ -54,7 +55,14 @@ int checkConfigs (void)
     // generate config file if it does not exist for some reason
     generateConfig();
   }
-  return 1;
+
+  if(access(SSHD_CONFIG, F_OK) != -1 )
+    return 1;
+  else
+  {
+    alert("sshd_config file is not available.");
+    return 0;
+  }
 }
 
 /**

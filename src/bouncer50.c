@@ -23,6 +23,13 @@
 
 int main (int argc, char* argv[])
 {
+	// ensure user is root
+	uid_t euid = geteuid();
+	if (euid != 0)
+	{
+		alert("Insufficient priviledges. Please execute as root.");
+		exit(1);
+	}
 
 	int opts;
 	char* help_text = "Example usage:\n\n \
@@ -84,16 +91,7 @@ int main (int argc, char* argv[])
 	FILE *logfp = NULL;
 	pid_t process_id = 0;
 	pid_t sid = 0;
-	uid_t euid = geteuid();
 
-	// ensure user is root
-	if (euid != 0)
-	{
-		alert("Insufficient priviledges. Please execute as root.");
-		exit(1);
-	}
-	else
-		notify("CS50 Bouncer is starting.");
 
 	// use fork() to create child process
 	process_id = fork();
