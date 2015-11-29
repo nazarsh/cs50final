@@ -25,44 +25,45 @@ FILE* config_fp;
  */
 int checkConfigs (void)
 {
-  // check to see if bouncer config file exists
-  if(access(CONFIG_FILE_NAME, F_OK) != -1 ) {
+    // check to see if bouncer config file exists
+    if(access(CONFIG_FILE_NAME, F_OK) != -1 ) {
     config_fp = fopen(CONFIG_FILE_NAME, "r+");
 
     if (config_fp != NULL)
     {
-      // ensure file is not empty
-      fseek(config_fp, 0, SEEK_END);
-      int fileLen = ftell(config_fp);
-      // assuming minimal configuration available, so check for size
-      if (fileLen < CONFIG_MIN_SIZE)
-      {
+        // ensure file is not empty
+        fseek(config_fp, 0, SEEK_END);
+        int fileLen = ftell(config_fp);
+
+    // assuming minimal configuration available, so check for size
+    if (fileLen < CONFIG_MIN_SIZE)
+    {
         alert("bouncer50 config file failed size check.");
         exit(1);
-      }
-      else
+    }
+    else
         return 1;
     }
     else
     {
-      alert("unable to open a config file");
+        alert("unable to open a config file");
     }
-    // close the file as it has been read into memory
-    fclose(config_fp);
-  }
-  else
-  {
-    // generate config file if it does not exist for some reason
-    generateConfig();
-  }
+        // close the file as it has been read into memory
+        fclose(config_fp);
+    }
+    else
+    {
+        // generate config file if it does not exist for some reason
+        generateConfig();
+    }
 
-  if(access(SSHD_CONFIG, F_OK) != -1 )
-    return 1;
-  else
-  {
-    alert("sshd_config file is not available.");
-    return 0;
-  }
+    if(access(SSHD_CONFIG, F_OK) != -1 )
+        return 1;
+    else
+    {
+        alert("sshd_config file is not available.");
+        return 0;
+    }
 }
 
 /**
@@ -70,23 +71,23 @@ int checkConfigs (void)
  */
 void generateConfig (void)
 {
-  warn("no config file available.");
-  config_fp = fopen(CONFIG_FILE_NAME, "w+");
+    warn("no config file available.");
+    config_fp = fopen(CONFIG_FILE_NAME, "w+");
 
-  if (config_fp != NULL)
-  {
-    // write a minimal configuration file
-    fprintf(config_fp, "PermitRootLogin no\n");
-    fprintf(config_fp, "PasswordAuthentication no\n");
-    fclose(config_fp);
+    if (config_fp != NULL)
+    {
+        // write a minimal configuration file
+        fprintf(config_fp, "PermitRootLogin no\n");
+        fprintf(config_fp, "PasswordAuthentication no\n");
+        fclose(config_fp);
 
-    notify("config file successfully generated.");
-  }
-  else
-  {
-    alert("unable to create a config file");
-    exit(1);
-  }
+        notify("config file successfully generated.");
+    }
+    else
+    {
+        alert("unable to create a config file");
+        exit(1);
+    }
 }
 
 /**
@@ -94,15 +95,15 @@ void generateConfig (void)
  */
 void analyzeConfig (void)
 {
-  // check sshd_config and bouncer50.conf before proceeding
-  int configCheckResult = checkConfigs();
+    // check sshd_config and bouncer50.conf before proceeding
+    int configCheckResult = checkConfigs();
 
-  if (configCheckResult == 1)
-  {
-    notify("happy path");
-  }
-  else
-  {
-    alert("there was an issue analyzing your configuration files.");
-  }
+    if (configCheckResult == 1)
+    {
+        notify("happy path");
+    }
+    else
+    {
+        alert("there was an issue analyzing your configuration files.");
+    }
 }
