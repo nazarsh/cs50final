@@ -18,7 +18,8 @@
 #define BOUNCER_CONFIG "/etc/bouncer50.conf"
 #define BOUNCER_CONFIG_MIN_SIZE 10
 #define SSHD_CONFIG "/etc/ssh/sshd_config"
-FILE* config_fp;
+FILE* bouncer_fp;
+FILE* sshd_fp;
 
 /**
  * Checks bouncer50.conf and sshd_config before passing them to analyzeConfig
@@ -26,30 +27,28 @@ FILE* config_fp;
 int checkConfigs (void)
 {
     // check to see if bouncer config file exists
-    if(access(BOUNCER_CONFIG, F_OK) != -1 ) {
-    config_fp = fopen(BOUNCER_CONFIG, "r+");
+    if(access(BOUNCER_CONFIG, F_OK) != -1 )
+    {
+        bouncer_fp = fopen(BOUNCER_CONFIG, "r+");
+        if (bouncer_fp != NULL)
+        {
+            // ensure file is not empty
+            fseek(bouncer_fp, 0, SEEK_END);
+            int fileLen = ftell(bouncer_fp);
+            fseek(bouncer_fp, 0, SEEK_SET);
 
-    if (config_fp != NULL)
-    {
-        // ensure file is not empty
-        fseek(config_fp, 0, SEEK_END);
-        int fileLen = ftell(config_fp);
+            // assuming minimal configuration available, so check for size
+            if (fileLen < BOUNCER_CONFIG_MIN_SIZE)
+            {
+                alert("bouncer50 config file failed size check.");
+                exit(1);
+            }
+        }
+        else
+        {
+            alert("unable to open a config file");
+        }
 
-    // assuming minimal configuration available, so check for size
-    if (fileLen < BOUNCER_CONFIG_MIN_SIZE)
-    {
-        alert("bouncer50 config file failed size check.");
-        exit(1);
-    }
-    else
-        return 1;
-    }
-    else
-    {
-        alert("unable to open a config file");
-    }
-        // close the file as it has been read into memory
-        fclose(config_fp);
     }
     else
     {
@@ -57,6 +56,7 @@ int checkConfigs (void)
         generateConfig();
     }
 
+    // ensure sshd_config is present. No need to verify size at this point.
     if(access(SSHD_CONFIG, F_OK) != -1 )
         return 1;
     else
@@ -72,14 +72,13 @@ int checkConfigs (void)
 void generateConfig (void)
 {
     warn("no config file available.");
-    config_fp = fopen(BOUNCER_CONFIG, "w+");
+    bouncer_fp = fopen(BOUNCER_CONFIG, "w+");
 
-    if (config_fp != NULL)
+    if (bouncer_fp != NULL)
     {
         // write a minimal configuration file
-        fprintf(config_fp, "PermitRootLogin no\n");
-        fprintf(config_fp, "PasswordAuthentication no\n");
-        fclose(config_fp);
+        fprintf(bouncer_fp, "PermitRootLogin no\n");
+        fprintf(bouncer_fp, "PasswordAuthentication no\n");
 
         notify("config file successfully generated.");
     }
@@ -100,10 +99,27 @@ void analyzeConfig (void)
 
     if (configCheckResult == 1)
     {
-        notify("happy path");
+        notify("happy path...");
+
+        char *bouncer_line = NULL;
+        size_t len = 0;
+        ssize_t read;
+
+        // since we already validated both config files, no validations happen here
+        while ((read = getline(&bouncer_line, &len, bouncer_fp)) != -1) {
+            printf("Retrieved line of length %zu :\n", read);
+            printf("%s", bouncer_line);
+        }
+
+        free(bouncer_line);
+
     }
     else
     {
         alert("there was an issue analyzing your configuration files.");
     }
+
+    // close the file as it has been read into memory
+    fclose(bouncer_fp);
+
 }
