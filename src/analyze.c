@@ -15,8 +15,8 @@
 #include <unistd.h>
 #include "bouncer50.h"
 
-#define CONFIG_FILE_NAME "/etc/bouncer50.conf"
-#define CONFIG_MIN_SIZE 10
+#define BOUNCER_CONFIG "/etc/bouncer50.conf"
+#define BOUNCER_CONFIG_MIN_SIZE 10
 #define SSHD_CONFIG "/etc/ssh/sshd_config"
 FILE* config_fp;
 
@@ -26,8 +26,8 @@ FILE* config_fp;
 int checkConfigs (void)
 {
     // check to see if bouncer config file exists
-    if(access(CONFIG_FILE_NAME, F_OK) != -1 ) {
-    config_fp = fopen(CONFIG_FILE_NAME, "r+");
+    if(access(BOUNCER_CONFIG, F_OK) != -1 ) {
+    config_fp = fopen(BOUNCER_CONFIG, "r+");
 
     if (config_fp != NULL)
     {
@@ -36,7 +36,7 @@ int checkConfigs (void)
         int fileLen = ftell(config_fp);
 
     // assuming minimal configuration available, so check for size
-    if (fileLen < CONFIG_MIN_SIZE)
+    if (fileLen < BOUNCER_CONFIG_MIN_SIZE)
     {
         alert("bouncer50 config file failed size check.");
         exit(1);
@@ -72,7 +72,7 @@ int checkConfigs (void)
 void generateConfig (void)
 {
     warn("no config file available.");
-    config_fp = fopen(CONFIG_FILE_NAME, "w+");
+    config_fp = fopen(BOUNCER_CONFIG, "w+");
 
     if (config_fp != NULL)
     {
