@@ -12,7 +12,7 @@ Final CS50 project. Program that:
 * [x] Add color for output (1)
 * [x] Add flag processing (2)
 * [ ] Add "analyze" flag and functionality (epic)
-  * [ ] Add a bill of health config file (1)
+  * [x] Add a bill of health config file (1)
   * [ ] Add reading of the bill of health (1)
   * [ ] Add reading of the sshd_config (1)
   * [ ] Implement comparison of bill and config file (2)
