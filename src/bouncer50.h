@@ -28,3 +28,8 @@ void generateConfig (void);
  * to ensure minimal acceptable configuration
  */
 void analyzeConfig (void);
+
+/**
+ * Print ssh setup guidelines when called
+ */
+void printSshGuidelines (void);

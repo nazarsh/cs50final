@@ -13,13 +13,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdbool.h>
 #include "bouncer50.h"
 
 #define BOUNCER_CONFIG "/etc/bouncer50.conf"
-#define BOUNCER_CONFIG_MIN_SIZE 10
+#define BOUNCER_CONFIG_MIN_SIZE 5
 #define SSHD_CONFIG "/etc/ssh/sshd_config"
 FILE* bouncer_fp;
-FILE* sshd_fp;
+FILE* ssh_fp;
 
 /**
  * Checks bouncer50.conf and sshd_config before passing them to analyzeConfig
@@ -40,7 +41,7 @@ int checkConfigs (void)
             // assuming minimal configuration available, so check for size
             if (fileLen < BOUNCER_CONFIG_MIN_SIZE)
             {
-                alert("bouncer50 config file failed size check.");
+                printf("bouncer50 config file failed size check.");
                 exit(1);
             }
         }
@@ -81,6 +82,9 @@ void generateConfig (void)
         fprintf(bouncer_fp, "PasswordAuthentication no\n");
 
         notify("config file successfully generated.");
+        // after writing to file, set it to beginning and re-run analyzeConfig()
+        fseek(bouncer_fp, 0, SEEK_SET);
+        analyzeConfig();
     }
     else
     {
@@ -94,24 +98,78 @@ void generateConfig (void)
  */
 void analyzeConfig (void)
 {
+    // track configuration settings compliance
+    bool healthBill = true;
+
     // check sshd_config and bouncer50.conf before proceeding
     int configCheckResult = checkConfigs();
 
     if (configCheckResult == 1)
     {
-        notify("happy path...");
-
         char *bouncer_line = NULL;
-        size_t len = 0;
-        ssize_t read;
+        char *ssh_line = NULL;
+        size_t len_bouncer = 0;
+        size_t len_ssh = 0;
+        ssize_t read_bouncer;
+        ssize_t read_ssh;
+
+        // open sshd_config
+        ssh_fp = fopen(SSHD_CONFIG, "r+");
+        if (ssh_fp == NULL)
+        {
+            alert("could not open your sshd_config.");
+            exit(1);
+        }
+
+        // keep track of config comparison matches
+        bool match;
 
         // since we already validated both config files, no validations happen here
-        while ((read = getline(&bouncer_line, &len, bouncer_fp)) != -1) {
-            printf("Retrieved line of length %zu :\n", read);
-            printf("%s", bouncer_line);
+        while ((read_bouncer = getline(&bouncer_line, &len_bouncer, bouncer_fp)) != -1)
+        {
+            // use strtok to print the "token" without \n
+            printf("Verifying \"%s\" ", strtok(bouncer_line, "\n"));
+
+            while ((read_ssh = getline(&ssh_line, &len_ssh, ssh_fp)) != -1)
+            {
+                // loop through and do string matching
+                strtok(ssh_line, "\n");
+                int matches = strcmp(bouncer_line, ssh_line);
+                //printf("MATCH: %s <==> %s\n\n", bouncer_line, ssh_line);
+                // keep match at false unless a match
+                if (matches != 0)
+                    match = false;
+                // if match, print OK, set match to true and stop
+                else
+                {
+                    match = true;
+                    break;
+                }
+
+            }
+            // check a summary vs every line for != true; also adjust healthBill
+            if (match != true)
+            {
+                warn("NO");
+                healthBill = false;
+            }
+            else
+                notify("OK");
+
+            // "rewind" the sshd_config after every line
+            fseek(ssh_fp, 0, SEEK_SET);
         }
 
         free(bouncer_line);
+        free(ssh_line);
+
+        if (healthBill)
+            notify("system is ready for --defend mode");
+        else
+        {
+            alert("please correct your sshd_config before proceeding.");
+            exit(1);
+        }
 
     }
     else
@@ -122,4 +180,12 @@ void analyzeConfig (void)
     // close the file as it has been read into memory
     fclose(bouncer_fp);
 
+}
+
+/**
+ * Print ssh setup guidelines when called
+ */
+void printSshGuidelines (void)
+{
+    notify("guidelines to come here");
 }

@@ -19,7 +19,6 @@
 #include <getopt.h>
 
 #include "bouncer50.h"
-#include "analyze.h"
 
 int main (int argc, char* argv[])
 {
@@ -66,6 +65,9 @@ int main (int argc, char* argv[])
 		switch (opts)
 		{
 			case 'a':
+				// print ssh guidelines
+				printSshGuidelines();
+				// run sshd_config analyzer
 				analyzeConfig();
 				break;
 			case 'd':
