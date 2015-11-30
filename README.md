@@ -11,7 +11,7 @@ Final CS50 project. Program that:
 * [x] Add `root` checks when program is executed (1)
 * [x] Add color for output (1)
 * [x] Add flag processing (2)
-* [ ] Add "analyze" flag and functionality (epic)
+* [x] Add "analyze" flag and functionality (epic)
   * [x] Add a bill of health config file (1)
   * [x] Generate default bill if file is not found (2)
   * [x] Add reading of bouncer config(1)
@@ -19,14 +19,14 @@ Final CS50 project. Program that:
   * [x] Implement comparison of bill and config file (2)
   * [x] Print results of comparison (1)
 * [ ] Print a general setup guide (1)
-* [ ] Add "stats" flag and functionality (epic)
-    * [ ] Setup sqlite3 database. (1)
-    * [ ] Ingest, store, use `country <=> ip` map. (3)
 * [ ] Add "defend" flag and functionality (3)
 
 ### Stretch Goals
+* [ ] Add "stats" flag and functionality (epic)
+    * [ ] Setup sqlite3 database. (1)
+    * [ ] Ingest, store, use `country <=> ip` map. (3)
+    * [ ] Add download capability to get fresh `country <=> ip` map. (2)
 * [ ] Add unit testing framework (2)
-* [ ] Add download capability to get fresh `country <=> ip` map. (2)
 
 ## References
 1. [Creating a Daemon Process in C Language with an Example Program](http://www.thegeekstuff.com/2012/02/c-daemon-process/) by HIMANSHU ARORA on FEBRUARY 24, 2012
