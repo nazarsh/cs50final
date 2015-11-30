@@ -1,3 +1,15 @@
+/**
+ * analyze.c
+ *
+ * Nazar Sharunenko
+ * nazar.sh@gmail.com
+ *
+ * Program to:
+ *   analyze sshd_config for best practices
+ *   provide statistics about unauthorized ssh login attemps
+ *   help block unauthorized ssh login attemps by writing firewall rules
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -10,6 +22,13 @@
 
 int main (int argc, char* argv[])
 {
+	// ensure user is root
+	uid_t euid = geteuid();
+	if (euid != 0)
+	{
+		alert("Insufficient priviledges. Please execute as root.");
+		exit(1);
+	}
 
 	int opts;
 	char* help_text = "Example usage:\n\n \
@@ -46,7 +65,10 @@ int main (int argc, char* argv[])
 		switch (opts)
 		{
 			case 'a':
-				puts("option -a\n");
+				// print ssh guidelines
+				printSshGuidelines();
+				// run sshd_config analyzer
+				analyzeConfig();
 				break;
 			case 'd':
 				puts("option -d\n");
@@ -71,16 +93,7 @@ int main (int argc, char* argv[])
 	FILE *logfp = NULL;
 	pid_t process_id = 0;
 	pid_t sid = 0;
-	uid_t euid = geteuid();
 
-	// ensure user is root
-	if (euid != 0)
-	{
-		alert("Insufficient priviledges. Please execute as root.");
-		exit(1);
-	}
-	else
-		notify("CS50 Bouncer is starting.");
 
 	// use fork() to create child process
 	process_id = fork();
@@ -104,6 +117,7 @@ int main (int argc, char* argv[])
 		exit(1);
 	}
 
+	// Location of the log file (*nix only)
 	chdir("/var/log/");
 
 	close(STDIN_FILENO);

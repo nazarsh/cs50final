@@ -10,9 +10,9 @@
  */
 void notify(char* message)
 {
-  printf(GREEN);
-  printf("%s", message);
-  printf(RESET "\n");
+    printf(GREEN);
+    printf("%s", message);
+    printf(RESET "\n");
 }
 
 /*
@@ -20,9 +20,9 @@ void notify(char* message)
  */
 void warn(char* message)
 {
-  printf(YELLOW);
-  printf("%s", message);
-  printf(RESET "\n");
+    printf(YELLOW);
+    printf("%s", message);
+    printf(RESET "\n");
 }
 
 /*
@@ -30,7 +30,7 @@ void warn(char* message)
  */
 void alert(char* message)
 {
-  printf(RED);
-  printf("%s", message);
-  printf(RESET "\n");
+    printf(RED);
+    printf("%s", message);
+    printf(RESET "\n");
 }
