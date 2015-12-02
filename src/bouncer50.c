@@ -22,7 +22,7 @@
 #include "bouncer50.h"
 
 #define LOG_DIR "/var/log/"
-#define AUTH_LOG "auth.log"
+#define AUTH_LOG "naz.log"
 #define BOUNCER_LOG "bouncer.log"
 #define HEALTH_BILL true
 
@@ -77,7 +77,8 @@ int main (int argc, char* argv[])
 				analyzeConfig();
 				break;
 			case 'd':
-				puts("option -d\n");
+				notify("launching defend mode. Please check logs.");
+				defendMode();
 				break;
 			case 's':
 				puts("option -s\n");
@@ -92,7 +93,14 @@ int main (int argc, char* argv[])
 		}
 	}
 	exit (0);
+}
 
+/**
+ * Daemonized defend mode
+ */
+
+void defendMode (void)
+{
 	pid_t process_id = 0;
 	pid_t sid = 0;
 
@@ -125,42 +133,60 @@ int main (int argc, char* argv[])
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 
+	// log files for auth and bouncer
 	FILE *bouncer_logfp = NULL;
 	FILE *auth_logfp = NULL;
 
-	bouncer_logfp = fopen (BOUNCER_LOG, "w+");
+	// error checking
+	bouncer_logfp = fopen (BOUNCER_LOG, "a");
 	if (bouncer_logfp == NULL)
 	{
-		alert("could not open your %s file.", BOUNCER_LOG);
+		alert("could not open boucer50 log file.");
 		exit(1);
 	}
 
-	auth_logfp = fopen (AUTH_LOG, "r+");
+	// error checking
+	auth_logfp = fopen (AUTH_LOG, "r");
 	if (auth_logfp == NULL)
 	{
-		alert("could not open your %s file.", AUTH_LOG);
+		alert("could not open your auth.log file.");
 		exit(1);
 	}
 
-
+	// file parsing based on getline
 	char *auth_log_line = NULL;
 	size_t len_auth_log = 0;
 	ssize_t read_auth_log;
+	fpos_t pos;
+	bool reached_end = false;
 
+	// keep watching the auth.log file for changes. Sleep when EOF.
 	while (1)
 	{
-		read_auth_log = getline(&auth_log_line, &len_auth_log, auth_logfp)
+		if (reached_end)
+		{
+			auth_logfp = fopen (AUTH_LOG, "r");
+			fsetpos(auth_logfp, &pos);
+		}
+		read_auth_log = getline(&auth_log_line, &len_auth_log, auth_logfp);
+
+		fgetpos(auth_logfp, &pos);
+
+		if(read_auth_log)
+		{
+
+			fprintf(bouncer_logfp, auth_log_line);
+			fflush(bouncer_logfp);
+		}
 
 		// reached the end of file, let us sleep a sec and try again
 		if (read_auth_log == -1)
 		{
+			reached_end = true;
 			sleep(1);
 		}
 	}
-		fprintf(bouncer_logfp, "logging ...\n");
-		fflush(bouncer_logfp);
-	}
 
+	fclose(auth_logfp);
 	fclose(bouncer_logfp);
-	return 0;
 }

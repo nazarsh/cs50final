@@ -33,3 +33,8 @@ void analyzeConfig (void);
  * Print ssh setup guidelines when called
  */
 void printSshGuidelines (void);
+
+/**
+ * Daemonized Defend mode
+ */
+void defendMode (void);
