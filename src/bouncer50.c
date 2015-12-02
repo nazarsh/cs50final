@@ -17,8 +17,14 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <getopt.h>
+#include <stdbool.h>
 
 #include "bouncer50.h"
+
+#define LOG_DIR "/var/log/"
+#define AUTH_LOG "auth.log"
+#define BOUNCER_LOG "bouncer.log"
+#define HEALTH_BILL true
 
 int main (int argc, char* argv[])
 {
@@ -85,15 +91,10 @@ int main (int argc, char* argv[])
 				abort();
 		}
 	}
-
 	exit (0);
 
-// ===========
-
-	FILE *logfp = NULL;
 	pid_t process_id = 0;
 	pid_t sid = 0;
-
 
 	// use fork() to create child process
 	process_id = fork();
@@ -118,21 +119,48 @@ int main (int argc, char* argv[])
 	}
 
 	// Location of the log file (*nix only)
-	chdir("/var/log/");
+	chdir(LOG_DIR);
 
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 
-	logfp = fopen ("bouncer.log", "w+");
+	FILE *bouncer_logfp = NULL;
+	FILE *auth_logfp = NULL;
+
+	bouncer_logfp = fopen (BOUNCER_LOG, "w+");
+	if (bouncer_logfp == NULL)
+	{
+		alert("could not open your %s file.", BOUNCER_LOG);
+		exit(1);
+	}
+
+	auth_logfp = fopen (AUTH_LOG, "r+");
+	if (auth_logfp == NULL)
+	{
+		alert("could not open your %s file.", AUTH_LOG);
+		exit(1);
+	}
+
+
+	char *auth_log_line = NULL;
+	size_t len_auth_log = 0;
+	ssize_t read_auth_log;
 
 	while (1)
 	{
-		sleep(5);
-		fprintf(logfp, "logging ...\n");
-		fflush(logfp);
+		read_auth_log = getline(&auth_log_line, &len_auth_log, auth_logfp)
+
+		// reached the end of file, let us sleep a sec and try again
+		if (read_auth_log == -1)
+		{
+			sleep(1);
+		}
+	}
+		fprintf(bouncer_logfp, "logging ...\n");
+		fflush(bouncer_logfp);
 	}
 
-	fclose(logfp);
+	fclose(bouncer_logfp);
 	return 0;
 }

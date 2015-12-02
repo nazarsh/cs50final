@@ -19,7 +19,12 @@ Final CS50 project. Program that:
   * [x] Implement comparison of bill and config file (2)
   * [x] Print results of comparison (1)
 * [ ] Print a general setup guide (1)
-* [ ] Add "defend" flag and functionality (3)
+* [ ] Add "defend" flag and functionality (epic)
+  * [ ] read auth.log file (1)
+  * [ ] figure out a way to "tail" the log file (3)
+  * [ ] string match and extract the offending IP addresses (2)
+  * [ ] produce firewall rules based on offending IPs (3)
+  * [ ] log activity for stats! (3)
 
 ### Stretch Goals
 * [ ] Add "stats" flag and functionality (epic)
