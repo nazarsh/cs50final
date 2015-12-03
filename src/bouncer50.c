@@ -158,6 +158,7 @@ void defendMode (void)
 	size_t len_auth_log = 0;
 	ssize_t read_auth_log;
 	fpos_t pos;
+
 	bool reached_end = false;
 
 	// keep watching the auth.log file for changes. Sleep when EOF.
@@ -165,6 +166,7 @@ void defendMode (void)
 	{
 		if (reached_end)
 		{
+			reached_end = false;
 			auth_logfp = fopen (AUTH_LOG, "r");
 			fsetpos(auth_logfp, &pos);
 		}
@@ -183,10 +185,13 @@ void defendMode (void)
 		if (read_auth_log == -1)
 		{
 			reached_end = true;
+			fclose(auth_logfp);
 			sleep(1);
 		}
+
+		auth_log_line = NULL;
 	}
 
-	fclose(auth_logfp);
+
 	fclose(bouncer_logfp);
 }
