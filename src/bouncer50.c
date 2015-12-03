@@ -101,6 +101,27 @@ int main (int argc, char* argv[])
 
 void defendMode (void)
 {
+	// log files for auth and bouncer
+	FILE *bouncer_logfp = NULL;
+	FILE *auth_logfp = NULL;
+
+	// error checking
+	bouncer_logfp = fopen (BOUNCER_LOG, "a");
+	if (bouncer_logfp == NULL)
+	{
+		alert("could not open boucer50 log file.");
+		exit(1);
+	}
+
+	// error checking
+	auth_logfp = fopen (AUTH_LOG, "r");
+	if (auth_logfp == NULL)
+	{
+		alert("could not open your auth.log file.");
+		exit(1);
+	}
+
+	// daemonize the process
 	pid_t process_id = 0;
 	pid_t sid = 0;
 
@@ -133,26 +154,6 @@ void defendMode (void)
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 
-	// log files for auth and bouncer
-	FILE *bouncer_logfp = NULL;
-	FILE *auth_logfp = NULL;
-
-	// error checking
-	bouncer_logfp = fopen (BOUNCER_LOG, "a");
-	if (bouncer_logfp == NULL)
-	{
-		alert("could not open boucer50 log file.");
-		exit(1);
-	}
-
-	// error checking
-	auth_logfp = fopen (AUTH_LOG, "r");
-	if (auth_logfp == NULL)
-	{
-		alert("could not open your auth.log file.");
-		exit(1);
-	}
-
 	// file parsing based on getline
 	char *auth_log_line = NULL;
 	size_t len_auth_log = 0;
@@ -166,32 +167,37 @@ void defendMode (void)
 	{
 		if (reached_end)
 		{
+			// reset the reached_end flag
 			reached_end = false;
+			// re-open the file at the last read position
 			auth_logfp = fopen (AUTH_LOG, "r");
 			fsetpos(auth_logfp, &pos);
 		}
+		// read a line from the log file
 		read_auth_log = getline(&auth_log_line, &len_auth_log, auth_logfp);
-
+		// remember a position of the line that was read
 		fgetpos(auth_logfp, &pos);
+
+		// do line processing to find violating IP addresses
 
 		if(read_auth_log)
 		{
-
+			// print into the bouncer log file
 			fprintf(bouncer_logfp, auth_log_line);
 			fflush(bouncer_logfp);
 		}
 
-		// reached the end of file, let us sleep a sec and try again
+		// reached the end of file
 		if (read_auth_log == -1)
 		{
+			// let us sleep a second and try again
 			reached_end = true;
 			fclose(auth_logfp);
 			sleep(1);
 		}
-
+		// tidy up the allocated memory
 		auth_log_line = NULL;
 	}
-
 
 	fclose(bouncer_logfp);
 }
