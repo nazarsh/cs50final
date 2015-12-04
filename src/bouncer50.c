@@ -25,6 +25,7 @@
 #define AUTH_LOG "naz.log"
 #define BOUNCER_LOG "bouncer.log"
 #define HEALTH_BILL true
+#define INVALID_USER_STR "Invalid user"
 
 int main (int argc, char* argv[])
 {
@@ -101,6 +102,9 @@ int main (int argc, char* argv[])
 
 void defendMode (void)
 {
+	// Location of the log file (*nix only)
+	chdir(LOG_DIR);
+	
 	// log files for auth and bouncer
 	FILE *bouncer_logfp = NULL;
 	FILE *auth_logfp = NULL;
@@ -147,9 +151,6 @@ void defendMode (void)
 		exit(1);
 	}
 
-	// Location of the log file (*nix only)
-	chdir(LOG_DIR);
-
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
@@ -178,12 +179,16 @@ void defendMode (void)
 		// remember a position of the line that was read
 		fgetpos(auth_logfp, &pos);
 
-		// do line processing to find violating IP addresses
-
+		// if readling of the line is successful
 		if(read_auth_log)
 		{
-			// print into the bouncer log file
-			fprintf(bouncer_logfp, auth_log_line);
+			// do line processing to find violating IP addresses
+			int processedLine = processLine(auth_log_line);
+			if (processedLine)
+			{
+				// print into the bouncer log file
+				fprintf(bouncer_logfp, auth_log_line);
+			}
 			fflush(bouncer_logfp);
 		}
 
@@ -200,4 +205,22 @@ void defendMode (void)
 	}
 
 	fclose(bouncer_logfp);
+}
+
+/**
+ * Process a line from auth.log and extract an offending IP address
+ */
+
+int processLine(char* auth_log_line)
+{
+	char* match;
+
+	match = strstr (auth_log_line, INVALID_USER_STR);
+
+	if (match)
+	{
+		return 1;
+	}
+	else
+		return 0;
 }

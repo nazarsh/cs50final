@@ -120,10 +120,8 @@ void analyzeConfig (void)
             alert("could not open your sshd_config.");
             exit(1);
         }
-
         // keep track of config comparison matches
         bool match;
-
         // since we already validated both config files, no validations happen here
         while ((read_bouncer = getline(&bouncer_line, &len_bouncer, bouncer_fp)) != -1)
         {
@@ -135,7 +133,7 @@ void analyzeConfig (void)
                 // loop through and do string matching
                 strtok(ssh_line, "\n");
                 int matches = strcmp(bouncer_line, ssh_line);
-                //printf("MATCH: %s <==> %s\n\n", bouncer_line, ssh_line);
+
                 // keep match at false unless a match
                 if (matches != 0)
                     match = false;
@@ -145,7 +143,6 @@ void analyzeConfig (void)
                     match = true;
                     break;
                 }
-
             }
             // check a summary vs every line for != true; also adjust healthBill
             if (match != true)
@@ -155,11 +152,10 @@ void analyzeConfig (void)
             }
             else
                 notify("OK");
-
             // "rewind" the sshd_config after every line
             fseek(ssh_fp, 0, SEEK_SET);
         }
-
+        // cleanup
         free(bouncer_line);
         free(ssh_line);
 
@@ -170,16 +166,13 @@ void analyzeConfig (void)
             alert("please correct your sshd_config before proceeding.");
             exit(1);
         }
-
     }
     else
     {
         alert("there was an issue analyzing your configuration files.");
     }
-
     // close the file as it has been read into memory
     fclose(bouncer_fp);
-
 }
 
 /**

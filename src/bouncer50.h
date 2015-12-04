@@ -38,3 +38,9 @@ void printSshGuidelines (void);
  * Daemonized Defend mode
  */
 void defendMode (void);
+
+/**
+ * Process a line from auth.log and extract an offending IP address
+ * Returns decimal representation of IP or 0
+ */
+int processLine(char* auth_log_line);

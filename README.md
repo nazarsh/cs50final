@@ -50,3 +50,4 @@ Final CS50 project. Program that:
 14. [How to get size of file in C](http://www.linuxquestions.org/questions/programming-9/how-to-get-size-of-file-in-c-183360/) (LinuxQuestions)
 15. [getline(3) - Linux man page](http://linux.die.net/man/3/getline) (Die.net)
 16. [fgetpos(), fsetpos()](http://beej.us/guide/bgc/output/html/multipage/fgetpos.html) (Beej's Guide to C)
+17. [<cstring> (string.h)](http://www.cplusplus.com/reference/cstring/) (cplupluc.com)
