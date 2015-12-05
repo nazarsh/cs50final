@@ -22,9 +22,9 @@ Final CS50 project. Program that:
 * [ ] Add "defend" flag and functionality (epic)
   * [x] read auth.log file (1)
   * [x] figure out a way to "tail" the log file (3)
-  * [ ] string match and extract the offending IP addresses (2)
-  * [ ] produce firewall rules based on offending IPs (3)
-  * [ ] log activity for stats! (3)
+  * [x] string match and extract the offending IP addresses (3)
+  * [ ] produce firewall rules based on offending IPs (2)
+  * [ ] log activity for stats! (1)
 
 ### Stretch Goals
 * [ ] Add "stats" flag and functionality (epic)
