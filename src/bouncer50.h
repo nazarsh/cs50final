@@ -43,4 +43,9 @@ void defendMode (void);
  * Process a line from auth.log and extract an offending IP address
  * Returns decimal representation of IP or 0
  */
-int processLine(char* auth_log_line);
+void processLine(char* auth_log_line);
+
+/**
+ * Logs important messages to bouncer log
+ */
+void logMessage(char* message_to_log);

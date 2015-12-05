@@ -18,6 +18,7 @@
 #include <string.h>
 #include <getopt.h>
 #include <stdbool.h>
+#include <arpa/inet.h>
 
 #include "bouncer50.h"
 
@@ -27,7 +28,9 @@
 #define HEALTH_BILL false
 #define INVALID_USER_STR "Invalid user"
 
-char* ip_addr = NULL;
+// log files for auth and bouncer
+FILE *bouncer_logfp = NULL;
+FILE *auth_logfp = NULL;
 
 int main (int argc, char* argv[])
 {
@@ -106,18 +109,6 @@ void defendMode (void)
 	// Location of the log file (*nix only)
 	chdir(LOG_DIR);
 
-	// log files for auth and bouncer
-	FILE *bouncer_logfp = NULL;
-	FILE *auth_logfp = NULL;
-
-	// error checking
-	bouncer_logfp = fopen (BOUNCER_LOG, "a");
-	if (bouncer_logfp == NULL)
-	{
-		alert("could not open boucer50 log file.");
-		exit(1);
-	}
-
 	// error checking
 	auth_logfp = fopen (AUTH_LOG, "r");
 	if (auth_logfp == NULL)
@@ -126,35 +117,35 @@ void defendMode (void)
 		exit(1);
 	}
 
-	// daemonize the process
-	pid_t process_id = 0;
-	pid_t sid = 0;
-
-	// use fork() to create child process
-	process_id = fork();
-
-	if (process_id < 0)
-	{
-		alert("fork failed!");
-		exit(1);
-	}
-	else if (process_id > 0)
-	{
-		printf("process_id of child process %d.\n", process_id);
-		exit(0);
-	}
-
-	umask(0);
-
-	sid = setsid();
-	if (sid < 0)
-	{
-		exit(1);
-	}
-
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
+	// // daemonize the process
+	// pid_t process_id = 0;
+	// pid_t sid = 0;
+	//
+	// // use fork() to create child process
+	// process_id = fork();
+	//
+	// if (process_id < 0)
+	// {
+	// 	alert("fork failed!");
+	// 	exit(1);
+	// }
+	// else if (process_id > 0)
+	// {
+	// 	printf("process_id of child process %d.\n", process_id);
+	// 	exit(0);
+	// }
+	//
+	// umask(0);
+	//
+	// sid = setsid();
+	// if (sid < 0)
+	// {
+	// 	exit(1);
+	// }
+	//
+	// close(STDIN_FILENO);
+	// close(STDOUT_FILENO);
+	// close(STDERR_FILENO);
 
 	// file parsing based on getline
 	char *auth_log_line = NULL;
@@ -162,6 +153,7 @@ void defendMode (void)
 	ssize_t read_auth_log;
 	fpos_t pos;
 
+	// flag for checking if the end of auth.log was reached
 	bool reached_end = false;
 
 	// keep watching the auth.log file for changes. Sleep when EOF.
@@ -184,15 +176,7 @@ void defendMode (void)
 		if(read_auth_log)
 		{
 			// do line processing to find violating IP addresses
-			int processedLine = processLine(auth_log_line);
-			if (processedLine)
-			{
-				// print into the bouncer log file
-				fprintf(bouncer_logfp, ip_addr);
-				// reset the IP to NULL after writing it out to log
-				ip_addr = NULL;
-			}
-			fflush(bouncer_logfp);
+			processLine(auth_log_line);
 		}
 
 		// reached the end of file
@@ -206,23 +190,22 @@ void defendMode (void)
 		// tidy up the allocated memory
 		auth_log_line = NULL;
 	}
-
-	fclose(bouncer_logfp);
 }
 
 /**
  * Process a line from auth.log and extract an offending IP address
  */
-int processLine(char* str)
+void processLine(char* str)
 {
 	char* last_space_pos;
 	char* new_line_pos;
 	long int num_to_copy;
 	char* match;
+	char ip_addr[INET_ADDRSTRLEN];
 
-	// check for Invalid user string and do additional processing
+	// check for 'Invalid user' string and do additional processing
 	match = strstr(str, INVALID_USER_STR);
-	// if string contain Invalid user, extract IP
+	// if string contain 'Invalid user', extract IP
 	if (match != NULL)
 	{
 		// find last occurence of space
@@ -230,18 +213,36 @@ int processLine(char* str)
 		// find newline character
 		new_line_pos = strrchr(str,'\n');
 		// do math magic to feed to strncpy
-		num_to_copy = (new_line_pos - str + 1) - (last_space_pos - str + 1);
+		num_to_copy = (new_line_pos - str + 1) - (last_space_pos - str + 2);
 		// set ip_addr extracted from the string
-		strncpy(ip_addr, last_space_pos, num_to_copy);
+		strncpy(ip_addr, last_space_pos + 1, num_to_copy + 1);
+		// make sure to terminate the string properly
+		ip_addr[num_to_copy] = '\0';
+		// convert and return IP
+		struct sockaddr_in sa;
+		// store this IP address in sa and use as validation of the ip:
+		int s = inet_pton(AF_INET, ip_addr, &(sa.sin_addr));
+		if (s > 0)
+		{
+			logMessage(ip_addr);
+		}
 	}
-	else
-		return 0;
 
+}
 
-	if (ip_addr[0])
+/**
+ * Logs important messages to bouncer log
+ */
+void logMessage(char* message_to_log)
+{
+	// open and error check the log file
+	bouncer_logfp = fopen (BOUNCER_LOG, "a");
+	if (bouncer_logfp == NULL)
 	{
-		return 1;
+		alert("could not open boucer50 log file.");
+		exit(1);
 	}
-	else
-		return 0;
+	fprintf(bouncer_logfp, "Blocked %s\n", message_to_log);
+	fflush(bouncer_logfp);
+	fclose(bouncer_logfp);
 }
