@@ -116,6 +116,9 @@ void defendMode (void)
 		alert("could not open your auth.log file.");
 		exit(1);
 	}
+	// PROCESS ONLY NEW LOG ENTRIES. CHANCE OF LOCKOUT OTHERWISE!
+	// Log could contain owner's ip from pre-configuration change state!
+	fseek(auth_logfp, 0, SEEK_END);
 
 	// // daemonize the process
 	// pid_t process_id = 0;
@@ -222,12 +225,12 @@ void processLine(char* str)
 		struct sockaddr_in sa;
 		// store this IP address in sa and use as validation of the ip:
 		int s = inet_pton(AF_INET, ip_addr, &(sa.sin_addr));
+		// only interested in valid IP addresses. Also a big security must!
 		if (s > 0)
 		{
 			logMessage(ip_addr);
 		}
 	}
-
 }
 
 /**
