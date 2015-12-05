@@ -24,8 +24,10 @@
 #define LOG_DIR "/var/log/"
 #define AUTH_LOG "naz.log"
 #define BOUNCER_LOG "bouncer.log"
-#define HEALTH_BILL true
+#define HEALTH_BILL false
 #define INVALID_USER_STR "Invalid user"
+
+char* ip_addr = NULL;
 
 int main (int argc, char* argv[])
 {
@@ -37,7 +39,7 @@ int main (int argc, char* argv[])
 		exit(1);
 	}
 
-	int opts;
+	// help text that is printed when no -h flags are set
 	char* help_text = "Example usage:\n\n \
 	bouncer50 --help    | -h\t print this help message\n \
 	bouncer50 --analyze | -a\t analyze ssh configuration\n \
@@ -55,15 +57,15 @@ int main (int argc, char* argv[])
 		{
 			{"analyze",		no_argument,	0,	'a'},
 			{"defend",		no_argument,	0,	'd'},
-			{"stats",			no_argument,	0,	's'},
-			{"help",			no_argument, 	0, 	'h'},
+			{"stats",		no_argument,	0,	's'},
+			{"help",		no_argument, 	0, 	'h'},
 			{0,0,0,0}
 		};
 
 		// variable to store getopt_long option index
 		int option_index = 0;
-
-		opts = getopt_long (argc, argv, "adsh", long_options, &option_index);
+		// get options
+		int opts = getopt_long (argc, argv, "adsh", long_options, &option_index);
 
 		// check for end of the options
 		if (opts == -1)
@@ -99,12 +101,11 @@ int main (int argc, char* argv[])
 /**
  * Daemonized defend mode
  */
-
 void defendMode (void)
 {
 	// Location of the log file (*nix only)
 	chdir(LOG_DIR);
-	
+
 	// log files for auth and bouncer
 	FILE *bouncer_logfp = NULL;
 	FILE *auth_logfp = NULL;
@@ -187,7 +188,9 @@ void defendMode (void)
 			if (processedLine)
 			{
 				// print into the bouncer log file
-				fprintf(bouncer_logfp, auth_log_line);
+				fprintf(bouncer_logfp, ip_addr);
+				// reset the IP to NULL after writing it out to log
+				ip_addr = NULL;
 			}
 			fflush(bouncer_logfp);
 		}
@@ -210,14 +213,32 @@ void defendMode (void)
 /**
  * Process a line from auth.log and extract an offending IP address
  */
-
-int processLine(char* auth_log_line)
+int processLine(char* str)
 {
+	char* last_space_pos;
+	char* new_line_pos;
+	long int num_to_copy;
 	char* match;
 
-	match = strstr (auth_log_line, INVALID_USER_STR);
+	// check for Invalid user string and do additional processing
+	match = strstr(str, INVALID_USER_STR);
+	// if string contain Invalid user, extract IP
+	if (match != NULL)
+	{
+		// find last occurence of space
+		last_space_pos = strrchr(str,' ');
+		// find newline character
+		new_line_pos = strrchr(str,'\n');
+		// do math magic to feed to strncpy
+		num_to_copy = (new_line_pos - str + 1) - (last_space_pos - str + 1);
+		// set ip_addr extracted from the string
+		strncpy(ip_addr, last_space_pos, num_to_copy);
+	}
+	else
+		return 0;
 
-	if (match)
+
+	if (ip_addr[0])
 	{
 		return 1;
 	}
