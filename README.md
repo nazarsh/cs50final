@@ -18,19 +18,21 @@ Final CS50 project. Program that:
   * [x] Add reading of the sshd_config (1)
   * [x] Implement comparison of bill and config file (2)
   * [x] Print results of comparison (1)
-  * [x] Add "defend" flag and functionality (epic)
-    * [x] read auth.log file (1)
-    * [x] figure out a way to "tail" the log file (3)
-    * [x] string match and extract the offending IP addresses (3)
-    * [x] produce firewall rules based on offending IPs (2)
-    * [x] log activity for stats! (1)
+* [x] Add "defend" flag and functionality (epic)
+  * [x] read auth.log file (1)
+  * [x] figure out a way to "tail" the log file (3)
+  * [x] string match and extract the offending IP addresses (3)
+  * [x] produce firewall rules based on offending IPs (2)
+  * [x] log activity for stats! (1)
 * [x] Print a general setup guide (2)
 * [x] Add health bill check into argv param handling
-* [ ] Add a "gentler" mode of iptables, with port 22 blocked and rest temp blocked
+* [x] Add a "gentler" mode of iptables, with port 22 blocked and rest temp blocked
+* [x] Add a demo of "stats" flag and functionality (epic)
+    * [x] Setup sqlite3 database (3)
+    * [x] Figure out a sample query and return results (2)
 
 ### Stretch Goals
-* [ ] Add "stats" flag and functionality (epic)
-    * [ ] Setup sqlite3 database. (1)
+
     * [ ] Ingest, store, use `country <=> ip` map. (3)
     * [ ] Add download capability to get fresh `country <=> ip` map. (2)
 * [ ] Add unit testing framework (2)
