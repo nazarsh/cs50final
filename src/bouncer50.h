@@ -33,3 +33,24 @@ void analyzeConfig (void);
  * Print ssh setup guidelines when called
  */
 void printSshGuidelines (void);
+
+/**
+ * Daemonized Defend mode
+ */
+void defendMode (void);
+
+/**
+ * Process a line from auth.log and extract an offending IP address
+ * Returns decimal representation of IP or 0
+ */
+void processLine(char* auth_log_line);
+
+/**
+ * Logs important messages to bouncer log
+ */
+void logMessage(char* message_to_log);
+
+/**
+ * Blacklists an offending IP via iptables rule
+ */
+void blacklistIp(char* ip_to_blacklist);

@@ -18,8 +18,15 @@ Final CS50 project. Program that:
   * [x] Add reading of the sshd_config (1)
   * [x] Implement comparison of bill and config file (2)
   * [x] Print results of comparison (1)
-* [ ] Print a general setup guide (1)
-* [ ] Add "defend" flag and functionality (3)
+  * [x] Add "defend" flag and functionality (epic)
+    * [x] read auth.log file (1)
+    * [x] figure out a way to "tail" the log file (3)
+    * [x] string match and extract the offending IP addresses (3)
+    * [x] produce firewall rules based on offending IPs (2)
+    * [x] log activity for stats! (1)
+* [ ] Print a general setup guide (2)
+* [ ] Add health bill check into argv param handling
+* [ ] Add a "gentler" mode of iptables, with port 22 blocked and rest temp blocked
 
 ### Stretch Goals
 * [ ] Add "stats" flag and functionality (epic)
@@ -27,6 +34,7 @@ Final CS50 project. Program that:
     * [ ] Ingest, store, use `country <=> ip` map. (3)
     * [ ] Add download capability to get fresh `country <=> ip` map. (2)
 * [ ] Add unit testing framework (2)
+* [ ] Add support for IPv6
 
 ## References
 1. [Creating a Daemon Process in C Language with an Example Program](http://www.thegeekstuff.com/2012/02/c-daemon-process/) by HIMANSHU ARORA on FEBRUARY 24, 2012
@@ -44,3 +52,7 @@ Final CS50 project. Program that:
 13. [What's the best way to check if a file exists in C? (cross platform)](http://stackoverflow.com/questions/230062/whats-the-best-way-to-check-if-a-file-exists-in-c-cross-platform) (Stackoverflow)
 14. [How to get size of file in C](http://www.linuxquestions.org/questions/programming-9/how-to-get-size-of-file-in-c-183360/) (LinuxQuestions)
 15. [getline(3) - Linux man page](http://linux.die.net/man/3/getline) (Die.net)
+16. [fgetpos(), fsetpos()](http://beej.us/guide/bgc/output/html/multipage/fgetpos.html) (Beej's Guide to C)
+17. [<cstring> (string.h)](http://www.cplusplus.com/reference/cstring/) (cplupluc.com)
+18. [INET_PTON(3)](http://man7.org/linux/man-pages/man3/inet_pton.3.html) (Linux Programmer's Manual)
+19. [Iptables Drop IP Address](http://www.cyberciti.biz/faq/linux-iptables-drop/) (nixCraft)
