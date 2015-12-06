@@ -78,7 +78,7 @@ void generateConfig (void)
 
         notify("config file successfully generated.");
         // after writing to file, set it to beginning and re-run analyzeConfig()
-        fseek(bouncer_fp, 0, SEEK_SET);
+        fclose(bouncer_fp);
         analyzeConfig();
     }
     else
@@ -108,12 +108,21 @@ void analyzeConfig (void)
         ssize_t read_ssh;
 
         // open sshd_config
-        ssh_fp = fopen(SSHD_CONFIG, "r+");
+        ssh_fp = fopen(SSHD_CONFIG, "r");
         if (ssh_fp == NULL)
         {
             alert("could not open your sshd_config.");
             exit(1);
         }
+
+        // open bouncer's config
+        bouncer_fp = fopen(BOUNCER_CONFIG, "r");
+        if (bouncer_fp == NULL)
+        {
+            alert("could not open your bouncer50 config.");
+            exit(1);
+        }
+
         // keep track of config comparison matches
         bool match;
         notify("checking your server's sshd_config file");
@@ -146,6 +155,7 @@ void analyzeConfig (void)
             }
             else
                 notify("OK");
+
             // "rewind" the sshd_config after every line
             fseek(ssh_fp, 0, SEEK_SET);
         }
