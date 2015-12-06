@@ -16,7 +16,7 @@
 #include <sys/stat.h>
 #include <getopt.h>
 #include <arpa/inet.h>
-#include "sqlite3/sqlite3.h"
+#include <sqlite3.h>
 
 extern bool HEALTH_BILL;
 
