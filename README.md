@@ -53,7 +53,7 @@ Final CS50 project. Program that:
 14. [How to get size of file in C](http://www.linuxquestions.org/questions/programming-9/how-to-get-size-of-file-in-c-183360/) (LinuxQuestions)
 15. [getline(3) - Linux man page](http://linux.die.net/man/3/getline) (Die.net)
 16. [fgetpos(), fsetpos()](http://beej.us/guide/bgc/output/html/multipage/fgetpos.html) (Beej's Guide to C)
-17. [<cstring> (string.h)](http://www.cplusplus.com/reference/cstring/) (cplupluc.com)
+17. [cstring (string.h)](http://www.cplusplus.com/reference/cstring/) (cplupluc.com)
 18. [INET_PTON(3)](http://man7.org/linux/man-pages/man3/inet_pton.3.html) (Linux Programmer's Manual)
 19. [Iptables Drop IP Address](http://www.cyberciti.biz/faq/linux-iptables-drop/) (nixCraft)
 20. [Initial Server Setup with Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-14-04) (DigitalOcean)
