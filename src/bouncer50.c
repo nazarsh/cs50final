@@ -130,6 +130,7 @@ void defendMode (void)
 	if (auth_logfp == NULL)
 	{
 		alert("could not open your auth.log file.");
+		logMessage("unable to open auth.log");
 		exit(1);
 	}
 	// PROCESS ONLY NEW LOG ENTRIES. CHANCE OF LOCKOUT OTHERWISE!
@@ -278,7 +279,7 @@ void logMessage(char* message_to_log)
 		alert("could not open boucer50 log file.");
 		exit(1);
 	}
-	fprintf(bouncer_logfp, "Blocked %s\n", message_to_log);
+	fprintf(bouncer_logfp, "%s\n", message_to_log);
 	fflush(bouncer_logfp);
 	fclose(bouncer_logfp);
 }
