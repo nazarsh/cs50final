@@ -18,13 +18,15 @@ Final CS50 project. Program that:
   * [x] Add reading of the sshd_config (1)
   * [x] Implement comparison of bill and config file (2)
   * [x] Print results of comparison (1)
-* [ ] Print a general setup guide (1)
-* [ ] Add "defend" flag and functionality (epic)
-  * [x] read auth.log file (1)
-  * [x] figure out a way to "tail" the log file (3)
-  * [x] string match and extract the offending IP addresses (3)
-  * [ ] produce firewall rules based on offending IPs (2)
-  * [x] log activity for stats! (1)
+  * [x] Add "defend" flag and functionality (epic)
+    * [x] read auth.log file (1)
+    * [x] figure out a way to "tail" the log file (3)
+    * [x] string match and extract the offending IP addresses (3)
+    * [x] produce firewall rules based on offending IPs (2)
+    * [x] log activity for stats! (1)
+* [ ] Print a general setup guide (2)
+* [ ] Add health bill check into argv param handling
+* [ ] Add a "gentler" mode of iptables, with port 22 blocked and rest temp blocked
 
 ### Stretch Goals
 * [ ] Add "stats" flag and functionality (epic)

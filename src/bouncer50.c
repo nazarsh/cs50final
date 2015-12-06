@@ -23,7 +23,7 @@
 #include "bouncer50.h"
 
 #define LOG_DIR "/var/log/"
-#define AUTH_LOG "naz.log"
+#define AUTH_LOG "auth.log"
 #define BOUNCER_LOG "bouncer.log"
 #define HEALTH_BILL false
 #define INVALID_USER_STR "Invalid user"
@@ -120,37 +120,38 @@ void defendMode (void)
 	// Log could contain owner's ip from pre-configuration change state!
 	fseek(auth_logfp, 0, SEEK_END);
 
-	// // daemonize the process
-	// pid_t process_id = 0;
-	// pid_t sid = 0;
-	//
-	// // use fork() to create child process
-	// process_id = fork();
-	//
-	// if (process_id < 0)
-	// {
-	// 	alert("fork failed!");
-	// 	exit(1);
-	// }
-	// else if (process_id > 0)
-	// {
-	// 	printf("process_id of child process %d.\n", process_id);
-	// 	exit(0);
-	// }
-	//
-	// umask(0);
-	//
-	// sid = setsid();
-	// if (sid < 0)
-	// {
-	// 	exit(1);
-	// }
-	//
-	// close(STDIN_FILENO);
-	// close(STDOUT_FILENO);
-	// close(STDERR_FILENO);
+	// daemonize the process
+	pid_t process_id = 0;
+	pid_t sid = 0;
 
-	// file parsing based on getline
+	// use fork() to create child process
+	process_id = fork();
+
+	// check fork status
+	if (process_id < 0)
+	{
+		alert("fork failed!");
+		exit(1);
+	}
+	else if (process_id > 0)
+		exit(0);
+
+	// set permissions
+	umask(0);
+
+	// creates a session and sets the process group ID
+	sid = setsid();
+	if (sid < 0)
+	{
+		exit(1);
+	}
+
+	// close standard (in, out, err) file descriptors
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+
+	// set up for file parsing based on getline
 	char *auth_log_line = NULL;
 	size_t len_auth_log = 0;
 	ssize_t read_auth_log;
@@ -245,7 +246,7 @@ void blacklistIp(char* ip_to_blacklist)
 	// call the iptables to blacklist the ip
 	system(iptables_rule);
 	// log the added ip
-	logMessage(ip_addr);
+	logMessage(ip_to_blacklist);
 }
 
 /**
