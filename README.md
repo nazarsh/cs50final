@@ -26,13 +26,14 @@ Final CS50 project. Program that:
   * [x] log activity for stats! (1)
 * [x] Print a general setup guide (2)
 * [x] Add health bill check into argv param handling
-* [x] Add a "gentler" mode of iptables, with port 22 blocked and rest temp blocked
+* [x] Only block subsequent ssh requests for now
 * [x] Add a demo of "stats" flag and functionality (epic)
-    * [x] Setup sqlite3 database (3)
-    * [x] Figure out a sample query and return results (2)
+  * [x] Setup sqlite3 database (3)
+  * [x] Figure out a sample query and return results (2)
 
 ### Stretch Goals
 
+* [ ] Add "stats" flag and functionality (epic)
     * [ ] Ingest, store, use `country <=> ip` map. (3)
     * [ ] Add download capability to get fresh `country <=> ip` map. (2)
 * [ ] Add unit testing framework (2)
@@ -59,3 +60,5 @@ Final CS50 project. Program that:
 18. [INET_PTON(3)](http://man7.org/linux/man-pages/man3/inet_pton.3.html) (Linux Programmer's Manual)
 19. [Iptables Drop IP Address](http://www.cyberciti.biz/faq/linux-iptables-drop/) (nixCraft)
 20. [Initial Server Setup with Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-14-04) (DigitalOcean)
+21. [how to import .sql into sqlite3](http://stackoverflow.com/questions/2049109/how-to-import-sql-into-sqlite3) (Stackoverflow)
+22. [Using SQLite in C programs](http://www.wassen.net/sqlite-c.html)

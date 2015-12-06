@@ -10,16 +10,6 @@
  *   help block unauthorized ssh login attemps by writing firewall rules
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <string.h>
-#include <getopt.h>
-#include <stdbool.h>
-#include <arpa/inet.h>
-
 #include "bouncer50.h"
 
 #define LOG_DIR "/var/log/"
@@ -97,7 +87,8 @@ int main (int argc, char* argv[])
 				}
 				break;
 			case 's':
-				puts("option -s\n");
+				// test database connection
+				mockStats();
 				break;
 			case 'h':
 				printf("%s",help_text);
@@ -257,12 +248,16 @@ void processLine(char* str)
 void blacklistIp(char* ip_to_blacklist)
 {
 	// allocate space for an iptables rule
-	char iptables_rule[50];
+	char iptables_rule[75];
+	// command to save iptables
+	char save_iptables[] = "iptables-save";
 	// construct iptables rule
 	snprintf(iptables_rule, sizeof(iptables_rule), \
-	"iptables -A INPUT -s %s -j DROP", ip_to_blacklist);
+	"iptables -A INPUT -s %s -p tcp --dport 22 -j DROP", ip_to_blacklist);
 	// call the iptables to blacklist the ip
 	system(iptables_rule);
+	// call the save command to persist the rules through reboot
+	system(save_iptables);
 	// log the added ip
 	logMessage(ip_to_blacklist);
 }
