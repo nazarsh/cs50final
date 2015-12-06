@@ -25,8 +25,10 @@
 #define LOG_DIR "/var/log/"
 #define AUTH_LOG "auth.log"
 #define BOUNCER_LOG "bouncer.log"
-#define HEALTH_BILL false
 #define INVALID_USER_STR "Invalid user"
+
+// sshd_config file health checks
+bool HEALTH_BILL = false;
 
 // log files for auth and bouncer
 FILE *bouncer_logfp = NULL;
@@ -83,8 +85,16 @@ int main (int argc, char* argv[])
 				analyzeConfig();
 				break;
 			case 'd':
-				notify("launching defend mode. Please check logs.");
-				defendMode();
+				// run through analyze if health bill was not green
+				if (HEALTH_BILL == false)
+				{
+					analyzeConfig();
+					defendMode();
+				}
+				else
+				{
+					defendMode();
+				}
 				break;
 			case 's':
 				puts("option -s\n");
@@ -106,6 +116,10 @@ int main (int argc, char* argv[])
  */
 void defendMode (void)
 {
+	// additional safety net to ensure config file passed health bill checks
+	if (HEALTH_BILL == false)
+		exit(1);
+
 	// Location of the log file (*nix only)
 	chdir(LOG_DIR);
 
@@ -242,7 +256,8 @@ void blacklistIp(char* ip_to_blacklist)
 	// allocate space for an iptables rule
 	char iptables_rule[50];
 	// construct iptables rule
-	snprintf(iptables_rule, sizeof(iptables_rule), "iptables -A INPUT -s %s -j DROP", ip_to_blacklist);
+	snprintf(iptables_rule, sizeof(iptables_rule), \
+	"iptables -A INPUT -s %s -j DROP", ip_to_blacklist);
 	// call the iptables to blacklist the ip
 	system(iptables_rule);
 	// log the added ip

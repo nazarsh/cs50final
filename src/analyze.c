@@ -99,7 +99,7 @@ void generateConfig (void)
 void analyzeConfig (void)
 {
     // track configuration settings compliance
-    bool healthBill = true;
+    HEALTH_BILL = true;
 
     // check sshd_config and bouncer50.conf before proceeding
     int configCheckResult = checkConfigs();
@@ -148,7 +148,7 @@ void analyzeConfig (void)
             if (match != true)
             {
                 warn("NO");
-                healthBill = false;
+                HEALTH_BILL = false;
             }
             else
                 notify("OK");
@@ -159,7 +159,7 @@ void analyzeConfig (void)
         free(bouncer_line);
         free(ssh_line);
 
-        if (healthBill)
+        if (HEALTH_BILL)
             notify("system is ready for --defend mode");
         else
         {

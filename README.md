@@ -25,7 +25,7 @@ Final CS50 project. Program that:
     * [x] produce firewall rules based on offending IPs (2)
     * [x] log activity for stats! (1)
 * [ ] Print a general setup guide (2)
-* [ ] Add health bill check into argv param handling
+* [x] Add health bill check into argv param handling
 * [ ] Add a "gentler" mode of iptables, with port 22 blocked and rest temp blocked
 
 ### Stretch Goals

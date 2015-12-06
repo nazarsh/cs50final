@@ -1,4 +1,15 @@
 /**
+ * analyze.h
+ *
+ * Nazar Sharunenko
+ * nazar.sh@gmail.com
+ *
+ * Headers file
+ */
+
+extern bool HEALTH_BILL;
+
+/**
  * Notifies user using green color
  */
 void notify (char* message);
