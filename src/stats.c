@@ -16,7 +16,7 @@
 int callback(void *arg, int argc, char **argv, char **colName) {
     int i;
     for(i = 0; i < argc; i++){
-        printf("%s = %s", colName[i], argv[i] ?  : "NULL");
+        printf("Country: %s", argv[i] ?  : "NULL");
     }
     printf("\n");
     return 0;
