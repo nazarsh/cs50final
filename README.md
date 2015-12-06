@@ -24,7 +24,7 @@ Final CS50 project. Program that:
     * [x] string match and extract the offending IP addresses (3)
     * [x] produce firewall rules based on offending IPs (2)
     * [x] log activity for stats! (1)
-* [ ] Print a general setup guide (2)
+* [x] Print a general setup guide (2)
 * [x] Add health bill check into argv param handling
 * [ ] Add a "gentler" mode of iptables, with port 22 blocked and rest temp blocked
 
@@ -56,3 +56,4 @@ Final CS50 project. Program that:
 17. [<cstring> (string.h)](http://www.cplusplus.com/reference/cstring/) (cplupluc.com)
 18. [INET_PTON(3)](http://man7.org/linux/man-pages/man3/inet_pton.3.html) (Linux Programmer's Manual)
 19. [Iptables Drop IP Address](http://www.cyberciti.biz/faq/linux-iptables-drop/) (nixCraft)
+20. [Initial Server Setup with Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-14-04) (DigitalOcean)
