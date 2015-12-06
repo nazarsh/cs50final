@@ -1,0 +1,26 @@
+LEARNING OBJECTIVES
+
+[x] Focus on the basics
+[x] Solidify my knowledge of C
+[x] Build a project that is immediately useful to me
+[x] Learn more about iptables and securing my sites
+[x] Confirm I can easily use database like sqlite3 with my project
+
+I believe I met all of these objective during the course of me working on the project.
+
+I typically host my wordpress/tinker sites on DigitalOcean, and when I looked at my auth.log, I quickly came to realization I should probably do something about all of the attempts to ssh into my machines. That is when I got the idea for this project.
+
+SETUP
+1. Ubuntu Server VirtualBox (judging from videos from prior year I don't need to describe steps)
+2. Ensure you are running your Ubuntu Network as Bridged Adapter to have a dedicated IP for testing
+3. Install sqlite3 and libraries: sudo apt-get install sqlite3 libsqlite3-dev
+(NOTE: if I shared compiled program I do suggest a user runs this command)
+4. Carefully follow instructions printed via ./bin/bouncer50 -a mode and ensure your config file matches what is required by the Program
+5. Remember to restart sshd on your server for the changes to take effect!
+6. Run the program (please see the video for an example: https://youtu.be/6ZbQ_Dcponk)
+
+TROUBLESHOOTING:
+remove iptables rules: # iptables -D INPUT 1
+kill the bouncer50 process: # pkill bouncer50
+
+Please contact me at nazar.sh@gmail.com in case there are unforeseen bugs preventing you from moving forward.

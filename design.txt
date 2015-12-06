@@ -1,0 +1,23 @@
+https://youtu.be/6ZbQ_Dcponk
+
+In order to successfully block login attempts on port 22 I decided to use iptables and eventually came up with something along the lines of:
+snprintf(iptables_rule, sizeof(iptables_rule), \
+"iptables -A INPUT -s %s -p tcp --dport 22 -j DROP", ip_to_blacklist);
+to add the firewall rule.
+
+I then proceeded with an idea that I really need to ensure that people using this program follow the configuration steps.
+I implemented that idea in analyze.c which produces bouncer50's config file, and then compares it line by line with /etc/ssh/sshd_config
+This was an important step I spent some time on to solidify my IO and string manipulations skills.
+Being curious about detaching the process, I looked up and implemented just that, which you will see in void defendMode (void)
+A bunch of my time was spent testing things out between OS X and Linux, which I installed via VirtualBox, as seen in my demo.
+Being curious about some of the statistical bits, but stretch goal included trying out sql and I went with sqlite3 and having read up on proper use of it inside a C project was able to put together a function that produces some mock data. I also located a database of ip to nation conversions which I will use as I improve the project in the future. It is available in res folder both as .sql and as sqlite3 database.
+
+Commands I ended up relying on when testing and implementing:
+iptables -L
+iptables -D INPUT 1
+tail -f /var/log/auth.log
+ps aux | grep bouncer
+sudo pkill bouncer50
+
+Running make should successfully compile as I've added a makefile to the project
+If you want to see my user stories that I was working with, please send me an email at nazar.sh@gmail.com and I will give you access to the github project.
