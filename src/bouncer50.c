@@ -87,6 +87,8 @@ int main (int argc, char* argv[])
 				}
 				break;
 			case 's':
+				warn("Please install sqlite3 if you have not done so already");
+				warn("sudo apt-get install sqlite3 libsqlite3-dev")
 				// test database connection
 				mockStats();
 				break;
