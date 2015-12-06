@@ -137,36 +137,36 @@ void defendMode (void)
 	// Log could contain owner's ip from pre-configuration change state!
 	fseek(auth_logfp, 0, SEEK_END);
 
-	// daemonize the process
-	pid_t process_id = 0;
-	pid_t sid = 0;
-
-	// use fork() to create child process
-	process_id = fork();
-
-	// check fork status
-	if (process_id < 0)
-	{
-		alert("fork failed!");
-		exit(1);
-	}
-	else if (process_id > 0)
-		exit(0);
-
-	// set permissions
-	umask(0);
-
-	// creates a session and sets the process group ID
-	sid = setsid();
-	if (sid < 0)
-	{
-		exit(1);
-	}
-
-	// close standard (in, out, err) file descriptors
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
+	// // daemonize the process
+	// pid_t process_id = 0;
+	// pid_t sid = 0;
+	//
+	// // use fork() to create child process
+	// process_id = fork();
+	//
+	// // check fork status
+	// if (process_id < 0)
+	// {
+	// 	alert("fork failed!");
+	// 	exit(1);
+	// }
+	// else if (process_id > 0)
+	// 	exit(0);
+	//
+	// // set permissions
+	// umask(0);
+	//
+	// // creates a session and sets the process group ID
+	// sid = setsid();
+	// if (sid < 0)
+	// {
+	// 	exit(1);
+	// }
+	//
+	// // close standard (in, out, err) file descriptors
+	// close(STDIN_FILENO);
+	// close(STDOUT_FILENO);
+	// close(STDERR_FILENO);
 
 	// set up for file parsing based on getline
 	char *auth_log_line = NULL;
