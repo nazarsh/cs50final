@@ -1,4 +1,4 @@
-# Final Project for CS50
+# Final Project for CS50 - Nazar Sharunenko 2015
 
 Final CS50 project. Program that:
 * reviews your ssh config file and provides guidelines
