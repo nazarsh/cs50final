@@ -77,9 +77,7 @@ void generateConfig (void)
         fprintf(bouncer_fp, "Port 22\n");
 
         notify("config file successfully generated.");
-        // after writing to file, set it to beginning and re-run analyzeConfig()
         fclose(bouncer_fp);
-        analyzeConfig();
     }
     else
     {
