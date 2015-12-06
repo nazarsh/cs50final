@@ -228,9 +228,24 @@ void processLine(char* str)
 		// only interested in valid IP addresses. Also a big security must!
 		if (s > 0)
 		{
-			logMessage(ip_addr);
+			blacklistIp(ip_addr);
 		}
 	}
+}
+
+/**
+ * Blacklists an offending IP via iptables rule
+ */
+void blacklistIp(char* ip_to_blacklist)
+{
+	// allocate space for an iptables rule
+	char iptables_rule[50];
+	// construct iptables rule
+	snprintf(iptables_rule, sizeof(iptables_rule), "iptables -A INPUT -s %s -j DROP", ip_to_blacklist);
+	// call the iptables to blacklist the ip
+	system(iptables_rule);
+	// log the added ip
+	logMessage(ip_addr);
 }
 
 /**

@@ -24,7 +24,7 @@ Final CS50 project. Program that:
   * [x] figure out a way to "tail" the log file (3)
   * [x] string match and extract the offending IP addresses (3)
   * [ ] produce firewall rules based on offending IPs (2)
-  * [ ] log activity for stats! (1)
+  * [x] log activity for stats! (1)
 
 ### Stretch Goals
 * [ ] Add "stats" flag and functionality (epic)
@@ -32,6 +32,7 @@ Final CS50 project. Program that:
     * [ ] Ingest, store, use `country <=> ip` map. (3)
     * [ ] Add download capability to get fresh `country <=> ip` map. (2)
 * [ ] Add unit testing framework (2)
+* [ ] Add support for IPv6
 
 ## References
 1. [Creating a Daemon Process in C Language with an Example Program](http://www.thegeekstuff.com/2012/02/c-daemon-process/) by HIMANSHU ARORA on FEBRUARY 24, 2012
@@ -51,3 +52,5 @@ Final CS50 project. Program that:
 15. [getline(3) - Linux man page](http://linux.die.net/man/3/getline) (Die.net)
 16. [fgetpos(), fsetpos()](http://beej.us/guide/bgc/output/html/multipage/fgetpos.html) (Beej's Guide to C)
 17. [<cstring> (string.h)](http://www.cplusplus.com/reference/cstring/) (cplupluc.com)
+18. [INET_PTON(3)](http://man7.org/linux/man-pages/man3/inet_pton.3.html) (Linux Programmer's Manual)
+19. [Iptables Drop IP Address](http://www.cyberciti.biz/faq/linux-iptables-drop/) (nixCraft)

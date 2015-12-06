@@ -49,3 +49,8 @@ void processLine(char* auth_log_line);
  * Logs important messages to bouncer log
  */
 void logMessage(char* message_to_log);
+
+/**
+ * Blacklists an offending IP via iptables rule
+ */
+void blacklistIp(char* ip_to_blacklist);
