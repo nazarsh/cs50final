@@ -1,13 +1,13 @@
 DROP TABLE IF EXISTS ip2nation;
 
 CREATE TABLE ip2nation (
-  ip int(11) unsigned NOT NULL default '0',
+  ip int(11) NOT NULL default '0',
   country char(2) NOT NULL default '',
-  KEY ip (ip)
+  PRIMARY KEY (ip)
 );
 
 DROP TABLE IF EXISTS ip2nationCountries;
-      
+
 CREATE TABLE ip2nationCountries (
   code varchar(4) NOT NULL default '',
   iso_code_2 varchar(2) NOT NULL default '',
@@ -15,10 +15,17 @@ CREATE TABLE ip2nationCountries (
   iso_country varchar(255) NOT NULL default '',
   country varchar(255) NOT NULL default '',
   lat float NOT NULL default '0',
-  lon float NOT NULL default '0',  
-  PRIMARY KEY  (code),
-  KEY code (code)
+  lon float NOT NULL default '0',
+  PRIMARY KEY (code)
 );
+
+DROP TABLE IF EXISTS blocked;
+
+CREATE TABLE blocked (
+  ip int(11) NOT NULL default '0',
+  PRIMARY KEY (ip)
+);
+
 INSERT INTO ip2nation (ip, country) VALUES(0, 'us');
 INSERT INTO ip2nation (ip, country) VALUES(687865856, 'za');
 INSERT INTO ip2nation (ip, country) VALUES(689963008, 'eg');
@@ -63501,7 +63508,7 @@ INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, count
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('fm', 'FM', 'FSM', 'Micronesia (Federated States of)', 'Micronesia', 6.55, 158.15);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('fo', 'FO', 'FRO', 'Faroe Islands', 'Faroe Islands', 62, -7);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('fr', 'FR', 'FRA', 'France', 'France', 46, 2);
-INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ci', 'CI', 'CIV', 'CÃ´te d\'Ivoire', 'Ivory Coast', 7.64, -4.93);
+INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ci', 'CI', 'CIV', 'Cote dIvoire', 'Ivory Coast', 7.64, -4.93);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ga', 'GA', 'GAB', 'Gabon', 'Gabon', -1, 11.45);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('gd', 'GD', 'GRD', 'Grenada', 'Grenada', 12.07, -61.4);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ge', 'GE', 'GEO', 'Georgia', 'Georgia', 42, 43.3);
@@ -63543,12 +63550,12 @@ INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, count
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ki', 'KI', 'KIR', 'Kiribati', 'Kiribati', 1.25, 173);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('km', 'KM', 'COM', 'Comoros', 'Comoros', -12.1, 44.15);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('kn', 'KN', 'KNA', 'Saint Kitts and Nevis', 'Saint Kitts and Nevis', 17.2, -62.45);
-INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('kp', 'KP', 'PRK', 'Korea (Democratic People\'s Republic of)', 'Korea (North)', 40, 127);
+INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('kp', 'KP', 'PRK', 'Korea (Democratic Peoples Republic of)', 'Korea (North)', 40, 127);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('kr', 'KR', 'KOR', 'Korea (Republic of)', 'Korea (South)', 37, 127.3);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('kw', 'KW', 'KWT', 'Kuwait', 'Kuwait', 29.3, 45.45);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ky', 'KY', 'CYM', 'Cayman Islands', 'Cayman Islands', 19.3, -80.3);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('kz', 'KZ', 'KAZ', 'Kazakhstan', 'Kazakhstan', 48, 68);
-INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('la', 'LA', 'LAO', 'Lao People\'s Democratic Republic', 'Laos', 18, 105);
+INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('la', 'LA', 'LAO', 'Lao Peoples Democratic Republic', 'Laos', 18, 105);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('lb', 'LB', 'LBN', 'Lebanon', 'Lebanon', 33.5, 35.5);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('lc', 'LC', 'LCA', 'Saint Lucia', 'Saint Lucia', 13.53, -60.68);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('li', 'LI', 'LIE', 'Liechtenstein', 'Liechtenstein', 47.16, 9.32);
@@ -63671,17 +63678,17 @@ INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, count
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('zw', 'ZW', 'ZWE', 'Zimbabwe', 'Zimbabwe', -20, 30);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ap', '', '', '', 'Asia-Pacific', -2.81, 128.5);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('rs', 'RS', 'SRB', 'Serbia', 'Republic of Serbia', 44.02, 21.01);
-INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ax', 'AX', 'ALA', 'Ã…land Islands', 'Aland Islands', 60.21, 20.16);
+INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ax', 'AX', 'ALA', 'Aland Islands', 'Aland Islands', 60.21, 20.16);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('eu', '', '', '', 'Europe', 0, 0);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('01', '', '', '', 'Private', 0, 0);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ps', 'PS', 'PSE', 'Palestine, State of', 'Palestinian Territory, Occupied', 31.89, 34.9);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('me', 'ME', 'MNE', 'Montenegro', 'Montenegro', 42.74, 19.31);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('bq', 'BQ', 'BES', 'Bonaire, Sint Eustatius and Saba', 'Bonaire, Sint Eustatius and Saba', 12.16, -68.3);
-INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('cw', 'CW', 'CUW', 'Curaçao', 'Curaçao', 12.2, -68.94);
+INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('cw', 'CW', 'CUW', 'Curacao', 'Curacao', 12.2, -68.94);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('gg', 'GG', 'GGY', 'Guernsey', 'Guernsey', 49.46, -2.58);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('im', 'IM', 'IMN', 'Isle of Man', 'Isle of Man', 54.23, -4.57);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('je', 'JE', 'JEY', 'Jersey', 'Jersey', 49.21, -2.13);
-INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('bl', 'BL', 'BLM', 'Saint BarthÃ©lemy', 'Saint Barthélemy', 17.91, -62.83);
+INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('bl', 'BL', 'BLM', 'Saint Barthelemy', 'Saint Barthelemy', 17.91, -62.83);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('mf', 'MF', 'MAF', 'Saint Martin (French part)', 'Saint Martin (French part)', 17.91, -62.83);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('sx', 'SX', 'SXM', 'Sint Maarten (Dutch part)', 'Sint Maarten (Dutch part)', 18.03, -63.1);
 INSERT INTO ip2nationCountries (code, iso_code_2, iso_code_3, iso_country, country, lat, lon) VALUES('ss', 'SS', 'SSD', 'South Sudan', 'South Sudan', 18.03, -63.1);

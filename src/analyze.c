@@ -9,11 +9,6 @@
  * Gives a global "pass" to bouncer50 to enter defend mode.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdbool.h>
 #include "bouncer50.h"
 
 #define BOUNCER_CONFIG "/etc/bouncer50.conf"
@@ -79,6 +74,7 @@ void generateConfig (void)
         // write a minimal configuration file
         fprintf(bouncer_fp, "PermitRootLogin no\n");
         fprintf(bouncer_fp, "PasswordAuthentication no\n");
+        fprintf(bouncer_fp, "Port 22\n");
 
         notify("config file successfully generated.");
         // after writing to file, set it to beginning and re-run analyzeConfig()
