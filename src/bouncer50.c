@@ -119,6 +119,8 @@ void defendMode (void)
 	// additional safety net to ensure config file passed health bill checks
 	if (HEALTH_BILL == false)
 		exit(1);
+	else
+		notify("starting defense mode");
 
 	// Location of the log file (*nix only)
 	chdir(LOG_DIR);
